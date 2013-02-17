@@ -18,6 +18,38 @@ along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normali
 and Blueprint http://www.blueprintcss.org/
 */
 
+/* =Global scss
+-------------------------------------------------------------- */
+$back-color: #B6B6AB;
+$base-color: #467082; /* web safe eqv: #336699 */
+$blog-color: #fc0;
+
+@mixin global-padding($topBot: 20px) {
+	padding: $topBot 20px;
+}
+
+@mixin global-border-radius($bottomRadius: 0) {
+	border-radius: 20px 20px $bottomRadius $bottomRadius;
+}
+
+@mixin rotate($degrees: 270deg) {
+	-webkit-transform: rotate($degrees);
+	-moz-transform: rotate($degrees);
+	-ms-transform: rotate($degrees);
+	-o-transform: rotate($degrees);
+	transform: rotate($degrees);
+}
+
+@font-face {
+    font-family: 'champagne__limousinesregular';
+    src: url('fonts/champagne__limousines-webfont.eot');
+    src: url('fonts/champagne__limousines-webfont.eot?#iefix') format('embedded-opentype'),
+         url('fonts/champagne__limousines-webfont.woff') format('woff'),
+         url('fonts/champagne__limousines-webfont.ttf') format('truetype'),
+         url('fonts/champagne__limousines-webfont.svg#champagne__limousinesregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* =Reset
 -------------------------------------------------------------- */
@@ -47,7 +79,7 @@ html {
 	-ms-text-size-adjust: 100%; /* www.456bereastreet.com/archive/201012/controlling_text_size_in_safari_for_ios_without_disabling_user_zoom/ */
 }
 body {
-	background: #fff;
+	background-color: $back-color;
 }
 article,
 aside,
@@ -100,10 +132,11 @@ input,
 select,
 textarea {
 	color: #404040;
-	font-family: sans-serif;
+	font-family: 'champagne__limousinesregular', sans-serif;
 	font-size: 16px;
 	font-size: 1.6rem;
 	line-height: 1.5;
+	letter-spacing: 3px;
 }
 
 /* Headings */
@@ -307,15 +340,15 @@ textarea {
 
 /* Links */
 a {
-	color: royalblue;
+	color: $base-color;
 }
 a:visited {
-	color: purple;
+	color: darken($base-color, 20%);
 }
 a:hover,
 a:focus,
 a:active {
-	color: midnightblue;
+	color: lighten($base-color, 20%);
 }
 
 /* Alignment */
@@ -343,59 +376,97 @@ a:active {
 }
 
 
+
 /* =Menu
 ----------------------------------------------- */
+
+@mixin blog-radius() {
+	border-radius: 0 0 20px 20px;
+}
+
+#blogLink {
+	background-color: $blog-color;
+	padding: 0 10px 10px 10px;
+	left: 0;
+	top: 45%;
+	opacity: 0.4;
+	@include rotate();
+	@include blog-radius();
+	position: fixed;
+	font-size: 22px;
+	margin-left: -34px;
+	.link-wrapper {
+		padding: 10px 30px;
+		@include blog-radius();
+		background-color: lighten($blog-color, 40%);
+		a {
+			font-weight: bold;
+			text-decoration: none;
+		}
+	}
+}
 
 .main-navigation {
 	clear: both;
 	display: block;
 	float: left;
 	width: 100%;
+	margin: 0 20px;
+
+	ul {
+		list-style: none;
+		margin: 0;
+		padding-left: 0;
+		ul {
+			-moz-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+			-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+			box-shadow: 0 3px 3px rgba(0,0,0,0.2);
+			display: none;
+			float: left;
+			position: absolute;
+			top: 1.5em;
+			left: 0;
+			z-index: 99999;
+			ul {
+				left: 100%;
+				top: 0;
+			}
+			a {
+				width: 200px;
+			}
+		}
+		li {
+			&:hover > ul {
+				display: block;
+			}
+		}
+	}
+	li {
+		float: left;
+		position: relative;
+	}
+	a {
+		display: block;
+		text-decoration: none;
+		background-color: $base-color;
+		color: white;
+		@include global-padding(0);
+		@include global-border-radius();
+		margin: 1px;
+		&:hover {
+			background-color: lighten($base-color, 15%);
+		}
+	}
 }
-.main-navigation ul {
-	list-style: none;
-	margin: 0;
-	padding-left: 0;
-}
-.main-navigation li {
-	float: left;
-	position: relative;
-}
-.main-navigation a {
-	display: block;
-	text-decoration: none;
-}
-.main-navigation ul ul {
-	-moz-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
-	-webkit-box-shadow: 0 3px 3px rgba(0,0,0,0.2);
-	box-shadow: 0 3px 3px rgba(0,0,0,0.2);
-	display: none;
-	float: left;
-	position: absolute;
-		top: 1.5em;
-		left: 0;
-	z-index: 99999;
-}
-.main-navigation ul ul ul {
-	left: 100%;
-	top: 0;
-}
-.main-navigation ul ul a {
-	width: 200px;
-}
-.main-navigation ul ul li {
-}
-.main-navigation li:hover > a {
-}
-.main-navigation ul ul :hover > a {
-}
-.main-navigation ul ul a:hover {
-}
-.main-navigation ul li:hover > ul {
-	display: block;
-}
-.main-navigation li.current_page_item a,
-.main-navigation li.current-menu-item a {
+
+.current_page_item a {
+	background-color: white;
+	color: #467082;
+	/* reuse */
+	&:hover {
+		color: white;
+		background-color: lighten($base-color, 15%);
+	}
 }
 
 /* Small menu */
@@ -406,10 +477,35 @@ a:active {
 	display: none;
 }
 
-
 /* =Content
 ----------------------------------------------- */
-
+#page {
+	width: 1024px;
+	margin: auto;
+	#masthead {
+		hgroup {
+			@include global-padding();
+			h1 {
+				font-size: 48px;
+				a {
+					text-decoration: none;
+				}
+			}
+			h2 {
+				font-size: 20px;
+			}
+		}
+	}
+	#main {
+		@include global-padding();
+		background-color: white;
+		clear: both;
+		@include global-border-radius(20px);
+	}
+	#colophon {
+		@include global-padding();
+	}
+}
 .sticky {
 }
 .hentry {
@@ -434,10 +530,10 @@ a:active {
 	margin: 0 0 1.5em;
 }
 
-
 /* =Asides
 ----------------------------------------------- */
 
+h1.entry-title,
 .blog .format-aside .entry-title,
 .archive .format-aside .entry-title {
 	display: none;

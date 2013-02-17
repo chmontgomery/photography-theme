@@ -25,6 +25,13 @@
 <body <?php body_class(); ?>>
 <div id="page" class="hfeed site">
 	<?php do_action( 'before' ); ?>
+
+	<div id="blogLink">
+		<div class="link-wrapper">
+			<a href="<?php get_bloginfo('wpurl'); ?>/wordpress/blog-2/" title="blog">blog</a>
+		</div>
+	</div>
+
 	<header id="masthead" class="site-header" role="banner">
 		<hgroup>
 			<h1 class="site-title"><a href="<?php echo esc_url( home_url( '/' ) ); ?>" title="<?php echo esc_attr( get_bloginfo( 'name', 'display' ) ); ?>" rel="home"><?php bloginfo( 'name' ); ?></a></h1>
