@@ -1,4 +1,4 @@
 photography-theme
 =================
 
-wordpress them for photography
+wordpress theme for photography website
